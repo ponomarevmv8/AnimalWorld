@@ -1,15 +1,11 @@
 package animal.herbivores;
 
 public class Boar extends Herbivores{
-    private static final double Weight = 400.0;
-    private static final int MAXNumberPerCell = 50;
-    private static final int MovementSpeed = 2;
+    private static final double WEIGHT = 400.0;
+    private static final int MAX_NUMBER_PER_CELL = 50;
+    private static final int MOVEMENT_SPEED = 2;
 
-    private static final double NeedFood = 50.0;
-    @Override
-    public void eat() {
-
-    }
+    private static final double NEED_FOOD = 50.0;
 
     @Override
     public void reproduce() {
@@ -19,5 +15,15 @@ public class Boar extends Herbivores{
     @Override
     public void movement() {
 
+    }
+
+    @Override
+    public double getNeedFood() {
+        return NEED_FOOD;
+    }
+
+    @Override
+    public double getWeight() {
+        return WEIGHT;
     }
 }
