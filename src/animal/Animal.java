@@ -1,6 +1,9 @@
 package animal;
 
 import gui.Cell;
+import gui.GameField;
+
+import java.util.Random;
 
 public abstract class Animal {
 
@@ -9,9 +12,31 @@ public abstract class Animal {
 
     public abstract void reproduce();
 
-    public abstract void movement();
+    public void movement(GameField gameField){
+        int x = cell.getX();
+        int y = cell.getY();
+        int movementSpeed  = this.getMovementSpeed();
+        int randomX = new Random().nextInt(movementSpeed*2 + 1) - movementSpeed;
+        if((x + randomX) < 0) {
+            randomX = -x;
+        } else if ((x + randomX) > 9) {
+            randomX = 9-x;
+        }
+        int randomY = (movementSpeed - Math.abs(randomX)) == 0 ? 0
+                : new Random().nextInt((movementSpeed - Math.abs(randomX) )*2 + 1) - (movementSpeed - Math.abs(randomX));
+        if((y + randomY) < 0) {
+            randomY = -y;
+        } else if ((y + randomY) > 9) {
+            randomY = 9-y;
+        }
+        System.out.println("Координаты были " + x + ", " + y + "\nСтали " + (x+randomX) + ", " + (y + randomY));
+        this.cell.removeAnimal(this);
+        gameField.getGamefield()[x+randomX][randomY + y].addAnimal(this);
+
+    }
 
     public abstract double getNeedFood();
+    public abstract int getMovementSpeed();
 
     public int getHealth() {
         return health;

@@ -33,9 +33,19 @@ public class Main {
         gameField.drawField();
         System.out.println();
         System.out.println("Координаты медведя: X=" + animal.getCell().getX() + ", Y=" + animal.getCell().getY());
-        if(animal.eat(herbivores2)) {
-            cells[5][2].removeAnimal(herbivores2);
+
+        while (true) {
+            animal.movement(gameField);
+//        if(animal.eat(herbivores2)) {
+//            cells[5][2].removeAnimal(herbivores2);
+//            gameField.drawField();
+//        }
             gameField.drawField();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

@@ -12,14 +12,15 @@ public class Boar extends Herbivores{
 
     }
 
-    @Override
-    public void movement() {
-
-    }
 
     @Override
     public double getNeedFood() {
         return NEED_FOOD;
+    }
+
+    @Override
+    public int getMovementSpeed() {
+        return MOVEMENT_SPEED;
     }
 
     @Override

@@ -12,13 +12,13 @@ public class Boa extends Predators{
 
     }
 
-    @Override
-    public void movement() {
-
-    }
-
     public double getNeedFood() {
         return NEED_FOOD;
+    }
+
+    @Override
+    public int getMovementSpeed() {
+        return MOVEMENT_SPEED;
     }
 
     @Override

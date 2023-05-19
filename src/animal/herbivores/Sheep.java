@@ -13,13 +13,13 @@ public class Sheep extends Herbivores{
     }
 
     @Override
-    public void movement() {
-
+    public double getNeedFood() {
+        return NEED_FOOD;
     }
 
     @Override
-    public double getNeedFood() {
-        return NEED_FOOD;
+    public int getMovementSpeed() {
+        return MOVEMENT_SPEED;
     }
 
     @Override
