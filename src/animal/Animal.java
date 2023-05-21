@@ -19,15 +19,15 @@ public abstract class Animal {
         int randomX = new Random().nextInt(movementSpeed*2 + 1) - movementSpeed;
         if((x + randomX) < 0) {
             randomX = -x;
-        } else if ((x + randomX) > 9) {
-            randomX = 9-x;
+        } else if ((x + randomX) > gameField.getGamefield().length - 1) {
+            randomX = gameField.getGamefield().length - 1 - x;
         }
         int randomY = (movementSpeed - Math.abs(randomX)) == 0 ? 0
                 : new Random().nextInt((movementSpeed - Math.abs(randomX) )*2 + 1) - (movementSpeed - Math.abs(randomX));
         if((y + randomY) < 0) {
             randomY = -y;
-        } else if ((y + randomY) > 9) {
-            randomY = 9-y;
+        } else if ((y + randomY) > gameField.getGamefield()[0].length - 1) {
+            randomY = gameField.getGamefield()[0].length - 1 - y;
         }
         System.out.println("Координаты были " + x + ", " + y + "\nСтали " + (x+randomX) + ", " + (y + randomY));
         this.cell.removeAnimal(this);
