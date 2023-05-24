@@ -9,22 +9,19 @@ import java.util.Random;
 
 public abstract class Predators extends Animal {
 
-    public boolean eat(Herbivores herbivores) {
+    public synchronized boolean eat(Herbivores herbivores) {
         if(herbivores == null) {
-            System.out.println("Животное уже съел другой");
             return false;
         }
         ChanceToEat chance = getPredators(this.getClass().getSimpleName());
         if (chance != null) {
             int numberChance = getChance(herbivores.getClass().getSimpleName(), chance.getChance());
             if(isEat(numberChance)) {
-                System.out.println("Животное съеденно");
                 this.setHealth(herbivores.getWeight());
                 return true;
             }
             return false;
         } else {
-            System.out.println("Произошла ошибка распознание класса хищника");
             return false;
         }
     }

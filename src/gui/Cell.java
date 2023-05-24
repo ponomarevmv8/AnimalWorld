@@ -22,6 +22,18 @@ public class Cell {
 
     private Map<String, Integer> countAnimal = new HashMap<>();
 
+    public List<Herbivores> getHerbivoresList() {
+        return herbivoresList;
+    }
+
+    public List<Predators> getPredatorsList() {
+        return predatorsList;
+    }
+
+    public List<Plants> getPlantsList() {
+        return plantsList;
+    }
+
     private List<Herbivores> herbivoresList = new ArrayList<>();
 
     private List<Predators> predatorsList = new ArrayList<>();
@@ -33,7 +45,7 @@ public class Cell {
         this.y = y;
     }
 
-    public void drawCell() {
+    public synchronized void drawCell() {
         cleanNull();
         if(!herbivoresList.isEmpty() || !predatorsList.isEmpty()) {
             for(String str : countAnimal.keySet()) {
@@ -84,14 +96,14 @@ public class Cell {
             }
         }
         if(!plantsList.isEmpty()) {
-            System.out.print("Т");
+            System.out.print("\uD83C\uDF31");
         }
         if(herbivoresList.isEmpty() && plantsList.isEmpty() && predatorsList.isEmpty()){
             System.out.print("|*|");
         }
     }
 
-    public void addAnimal(Animal animal) {
+    public synchronized void addAnimal(Animal animal) {
         String nameClass = animal.getClass().getSimpleName();
         if(countAnimal.containsKey(nameClass)) {
             Integer count = countAnimal.get(nameClass);
@@ -106,11 +118,10 @@ public class Cell {
         } else {
             predatorsList.add((Predators) animal);
             animal.setCell(this);
-            System.out.println("Добавили животного");
         }
     }
 
-    public void addPlants(Plants plants) {
+    public synchronized void addPlants(Plants plants) {
         plantsList.add(plants);
     }
 
@@ -120,7 +131,7 @@ public class Cell {
         plantsList.stream().filter(plants -> plants != null).collect(Collectors.toList());
     }
 
-    public void removeAnimal(Animal animal) {
+    public synchronized void removeAnimal(Animal animal) {
         String nameClass = animal.getClass().getSimpleName();
         if(animal instanceof Herbivores) {
             herbivoresList.remove(animal);

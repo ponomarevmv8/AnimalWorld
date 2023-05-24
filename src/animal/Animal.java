@@ -12,7 +12,7 @@ public abstract class Animal {
 
     public abstract void reproduce();
 
-    public void movement(GameField gameField){
+    public synchronized void movement(GameField gameField){
         int x = cell.getX();
         int y = cell.getY();
         int movementSpeed  = this.getMovementSpeed();
@@ -29,7 +29,6 @@ public abstract class Animal {
         } else if ((y + randomY) > gameField.getGamefield()[0].length - 1) {
             randomY = gameField.getGamefield()[0].length - 1 - y;
         }
-        System.out.println("Координаты были " + x + ", " + y + "\nСтали " + (x+randomX) + ", " + (y + randomY));
         this.cell.removeAnimal(this);
         gameField.getGamefield()[x+randomX][randomY + y].addAnimal(this);
 
@@ -45,7 +44,11 @@ public abstract class Animal {
     public void setHealth(double getFood) {
         double getHepth = (getFood * 100) / getNeedFood() ;
         this.health += (int) getHepth;
-        System.out.println("Жизни составляют: " + health);
+        if(health < 0) {
+            cell.removeAnimal(this);
+        } else if (health > 100) {
+            health = 100;
+        }
     }
 
     public abstract double getWeight();
