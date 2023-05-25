@@ -7,7 +7,6 @@ import animal.predators.Predators;
 import gui.Cell;
 import gui.GameField;
 
-import java.io.Console;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -21,6 +20,8 @@ public class Service {
 
     private int countCicleLife = 0;
     private boolean reproduce = false;
+
+    private int countDrawField = 0;
 
     public Service(GameField gameField) {
         this.gameField = gameField;
@@ -61,6 +62,11 @@ public class Service {
             public void run() {
                 gameField.drawField();
                 System.out.println("\n");
+                if(countDrawField == 5) {
+                    Logger.printStats();
+                    countDrawField = 0;
+                    System.out.println();
+                } else countDrawField++;
             }
         };
 
@@ -115,6 +121,7 @@ public class Service {
                 int numberCells = x*y;
                 for (int i = 0; i < numberCells * 3 / 20; i++){
                     gameField.getGamefield()[new Random().nextInt(x)][new Random().nextInt(y)].addPlants(new Plants());
+                    Logger.addCountPlantsGrown();
                 }
             }
         };
@@ -169,6 +176,7 @@ public class Service {
                     if(predators.eat(herbivores)) {
                         isEat = true;
                         herbivores.getCell().removeAnimal(herbivores);
+                        Logger.addCountEatHerbivores();
                         break;
                     }
                 }
@@ -184,6 +192,8 @@ public class Service {
                 if(!plantsList.isEmpty()) {
                     herbivores.eat(plantsList.get(0));
                     plantsList.remove(0);
+                    Logger.addCountEatPlants();
+                    Logger.downCountPlants();
                 } else {
                     herbivores.movement(gameField);
                 }
@@ -208,6 +218,7 @@ public class Service {
                 if(predators.getClass().getSimpleName().equals(animal[0])) {
                     for(int i = 0; i < Integer.parseInt(animal[1]); i++) {
                         predators.reproduce();
+                        Logger.addCountPredatorsBorn();
                     }
                     findAnimal = true;
                     break;
@@ -218,6 +229,7 @@ public class Service {
                     if(herbivores.getClass().getSimpleName().equals(animal[0])) {
                         for(int i = 0; i < Integer.parseInt(animal[1]); i++) {
                             herbivores.reproduce();
+                            Logger.addCountHerbivoresBorn();
                         }
                     }
                 }

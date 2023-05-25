@@ -4,6 +4,7 @@ import animal.Animal;
 import animal.Plants;
 import animal.herbivores.Herbivores;
 import animal.predators.Predators;
+import service.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -115,14 +116,17 @@ public class Cell {
         if(animal instanceof Herbivores) {
             herbivoresList.add((Herbivores) animal);
             animal.setCell(this);
+            Logger.addCountHerbivores();
         } else {
             predatorsList.add((Predators) animal);
             animal.setCell(this);
+            Logger.addCountPredators();
         }
     }
 
     public synchronized void addPlants(Plants plants) {
         plantsList.add(plants);
+        Logger.addCountPlants();
     }
 
     private void cleanNull(){
@@ -135,8 +139,10 @@ public class Cell {
         String nameClass = animal.getClass().getSimpleName();
         if(animal instanceof Herbivores) {
             herbivoresList.remove(animal);
+            Logger.downCountHerbivores();
         } else {
             predatorsList.remove(animal);
+            Logger.downCountPredators();
         }
         Integer count = countAnimal.get(nameClass);
         if(count > 1) {

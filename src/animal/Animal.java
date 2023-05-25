@@ -1,7 +1,9 @@
 package animal;
 
+import animal.herbivores.Herbivores;
 import gui.Cell;
 import gui.GameField;
+import service.Logger;
 
 import java.util.Random;
 
@@ -55,6 +57,11 @@ public abstract class Animal {
         this.health += (int) getHepth;
         if(health < 0) {
             cell.removeAnimal(this);
+            if (this instanceof Herbivores) {
+                Logger.addCountDeadHerbivores();
+            } else {
+                Logger.addCountDeadPredators();
+            }
         } else if (health > 100) {
             health = 100;
         }
