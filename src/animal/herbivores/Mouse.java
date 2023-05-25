@@ -28,4 +28,9 @@ public class Mouse extends Herbivores{
     public double getWeight() {
         return WEIGHT;
     }
+
+    @Override
+    public int getMaxNumberPerCell() {
+        return MAX_NUMBER_PER_CELL;
+    }
 }

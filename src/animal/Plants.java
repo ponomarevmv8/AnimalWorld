@@ -8,4 +8,8 @@ public class Plants {
         double weight = WEIGHT;
         return weight;
     }
+
+    public int getMaxNumberPerCell(){
+        return MAX_NUMBER_PER_CELL;
+    }
 }

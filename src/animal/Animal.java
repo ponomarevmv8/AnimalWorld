@@ -77,6 +77,8 @@ public abstract class Animal {
         return cell;
     }
 
+    public abstract int getMaxNumberPerCell();
+
 
 
 }

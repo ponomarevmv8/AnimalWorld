@@ -113,20 +113,28 @@ public class Cell {
         } else {
             countAnimal.put(nameClass, 1);
         }
-        if(animal instanceof Herbivores) {
-            herbivoresList.add((Herbivores) animal);
-            animal.setCell(this);
-            Logger.addCountHerbivores();
+        if(countAnimal.get(nameClass) <= animal.getMaxNumberPerCell()) {
+            if (animal instanceof Herbivores) {
+                herbivoresList.add((Herbivores) animal);
+                animal.setCell(this);
+                Logger.addCountHerbivores();
+            } else {
+                predatorsList.add((Predators) animal);
+                animal.setCell(this);
+                Logger.addCountPredators();
+            }
         } else {
-            predatorsList.add((Predators) animal);
-            animal.setCell(this);
-            Logger.addCountPredators();
+            Integer count = countAnimal.get(nameClass);
+            count -= 1;
+            countAnimal.put(nameClass, count);
         }
     }
 
     public synchronized void addPlants(Plants plants) {
-        plantsList.add(plants);
-        Logger.addCountPlants();
+        if(plantsList.size() < plants.getMaxNumberPerCell()) {
+            plantsList.add(plants);
+            Logger.addCountPlants();
+        }
     }
 
     private void cleanNull(){
