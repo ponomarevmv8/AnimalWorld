@@ -10,7 +10,16 @@ public abstract class Animal {
     private Cell cell;
     private int health = 100;
 
-    public abstract void reproduce();
+    public void reproduce(){
+        try {
+            Animal animal = this.getClass().newInstance();
+            this.getCell().addAnimal(animal);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public synchronized void movement(GameField gameField){
         int x = cell.getX();
@@ -41,7 +50,7 @@ public abstract class Animal {
         return health;
     }
 
-    public void setHealth(double getFood) {
+    public synchronized void setHealth(double getFood) {
         double getHepth = (getFood * 100) / getNeedFood() ;
         this.health += (int) getHepth;
         if(health < 0) {

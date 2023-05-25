@@ -147,4 +147,15 @@ public class Cell {
         }
     }
 
+    public List<String> getAnimalForReproduce(){
+        List<String> animal = new ArrayList<>();
+        for(String str : countAnimal.keySet()){
+            if(countAnimal.get(str) >= 2) {
+                animal.add(str + " " + countAnimal.get(str)/2);
+            }
+        }
+        return animal;
+
+    }
+
 }

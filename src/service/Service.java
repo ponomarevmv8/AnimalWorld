@@ -7,8 +7,10 @@ import animal.predators.Predators;
 import gui.Cell;
 import gui.GameField;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +18,9 @@ import java.util.concurrent.TimeUnit;
 public class Service {
     private GameField gameField;
     private ScheduledExecutorService service = Executors.newScheduledThreadPool(5);
+
+    private int countCicleLife = 0;
+    private boolean reproduce = false;
 
     public Service(GameField gameField) {
         this.gameField = gameField;
@@ -26,6 +31,12 @@ public class Service {
         Runnable circleOfLifeAnimal = new Runnable() {
             @Override
             public void run() {
+                if(countCicleLife == 4) {
+                    reproduce = true;
+                } else if (countCicleLife > 4) {
+                    countCicleLife = 0;
+                    reproduce = false;
+                }
                 Cell[][] cells = gameField.getGamefield();
                 for(int i = 0; i < cells.length; i++){
                     for(int j = 0; j < cells[0].length; j++) {
@@ -34,11 +45,13 @@ public class Service {
                         service.execute(new Runnable() {
                             @Override
                             public void run() {
+                                if(reproduce) reproduceAnimal(cells[cellX][cellY]);
                                 circleOfLife(cells[cellX][cellY].getPredatorsList(), cells[cellX][cellY].getHerbivoresList(), cells[cellX][cellY].getPlantsList());
                             }
                         });
                     }
                 }
+                countCicleLife ++;
             }
         };
 
@@ -97,9 +110,38 @@ public class Service {
         Runnable plantGrowth = new Runnable() {
             @Override
             public void run() {
-                int numberCells = gameField.getGamefield().length * gameField.getGamefield()[0].length;
+                int x = gameField.getGamefield().length;
+                int y = gameField.getGamefield()[0].length;
+                int numberCells = x*y;
                 for (int i = 0; i < numberCells * 3 / 20; i++){
-                    gameField.getGamefield()[new Random().nextInt(10)][new Random().nextInt(10)].addPlants(new Plants());
+                    gameField.getGamefield()[new Random().nextInt(x)][new Random().nextInt(y)].addPlants(new Plants());
+                }
+            }
+        };
+
+        Runnable reproduce = new Runnable() {
+            @Override
+            public void run() {
+                Cell[][] cells = gameField.getGamefield();
+                for (int i = 0; i < cells.length; i++) {
+                    for (int j = 0; j < cells[0].length; j++) {
+
+                    }
+                }
+            }
+        };
+
+        Runnable stopService = new Runnable() {
+            @Override
+            public void run() {
+                Scanner scanner = new Scanner(System.in);
+                String input;
+                while (true){
+                    input = scanner.nextLine();
+                    if(input.equalsIgnoreCase("stop")){
+                        service.shutdown();
+                        break;
+                    }
                 }
             }
         };
@@ -114,7 +156,7 @@ public class Service {
 
         service.scheduleAtFixedRate(checkAnimal, 5, 5, TimeUnit.SECONDS);
 
-
+        service.execute(stopService);
     }
 
     private void circleOfLife(List<Predators> predatorsList, List<Herbivores> herbivoresList, List<Plants> plantsList) {
@@ -158,4 +200,28 @@ public class Service {
         herbivoresList.forEach(x-> x.setHealth(-x.getNeedFood()/10));
     }
 
+    private void reproduceAnimal(Cell cell) {
+        for(String str : cell.getAnimalForReproduce()){
+            String animal[] = str.split(" ");
+            boolean findAnimal = false;
+            for(Predators predators : cell.getPredatorsList()) {
+                if(predators.getClass().getSimpleName().equals(animal[0])) {
+                    for(int i = 0; i < Integer.parseInt(animal[1]); i++) {
+                        predators.reproduce();
+                    }
+                    findAnimal = true;
+                    break;
+                }
+            }
+            if(!findAnimal) {
+                for (Herbivores herbivores : cell.getHerbivoresList()) {
+                    if(herbivores.getClass().getSimpleName().equals(animal[0])) {
+                        for(int i = 0; i < Integer.parseInt(animal[1]); i++) {
+                            herbivores.reproduce();
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
