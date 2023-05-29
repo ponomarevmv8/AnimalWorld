@@ -7,10 +7,6 @@ public class Duck extends Herbivores{
 
     private static final double NEED_FOOD = 0.15;
 
-    @Override
-    public void reproduce() {
-
-    }
 
     @Override
     public double getNeedFood() {

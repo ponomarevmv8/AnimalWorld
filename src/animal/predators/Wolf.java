@@ -8,10 +8,6 @@ public class Wolf extends Predators{
 
     private static final double NEED_FOOD = 8.0;
 
-    @Override
-    public void reproduce() {
-
-    }
 
     public double getNeedFood() {
         return NEED_FOOD;

@@ -7,11 +7,6 @@ public class Bunny extends Herbivores{
 
     private static final double NEED_FOOD = 0.45;
 
-    @Override
-    public void reproduce() {
-
-    }
-
     public double getNeedFood() {
         return NEED_FOOD;
     }

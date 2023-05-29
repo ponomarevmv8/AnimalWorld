@@ -9,10 +9,6 @@ public class Mouse extends Herbivores{
 
     private static final double NEED_FOOD = 0.01;
 
-    @Override
-    public void reproduce() {
-
-    }
 
     @Override
     public double getNeedFood() {

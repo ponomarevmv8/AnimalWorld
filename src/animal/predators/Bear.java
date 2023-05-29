@@ -9,11 +9,6 @@ public class Bear extends Predators{
     private ChanceToEat chanceToEat = ChanceToEat.BEAR;
     private static final double NEED_FOOD = 80.0;
 
-
-    @Override
-    public void reproduce() {
-
-    }
     public double getNeedFood() {
         return NEED_FOOD;
     }

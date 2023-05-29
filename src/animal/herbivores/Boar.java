@@ -7,11 +7,6 @@ public class Boar extends Herbivores{
 
     private static final double NEED_FOOD = 50.0;
 
-    @Override
-    public void reproduce() {
-
-    }
-
 
     @Override
     public double getNeedFood() {

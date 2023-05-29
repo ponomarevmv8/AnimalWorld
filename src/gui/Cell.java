@@ -113,7 +113,7 @@ public class Cell {
         } else {
             countAnimal.put(nameClass, 1);
         }
-        if(countAnimal.get(nameClass) <= animal.getMaxNumberPerCell()) {
+         if (countAnimal.get(nameClass) < animal.getMaxNumberPerCell()) {
             if (animal instanceof Herbivores) {
                 herbivoresList.add((Herbivores) animal);
                 animal.setCell(this);

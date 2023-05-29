@@ -66,6 +66,7 @@ public class Service {
                     Logger.printStats();
                     countDrawField = 0;
                     System.out.println();
+                    System.out.println("Для остановки приложения введите слово \"stop\"");
                 } else countDrawField++;
             }
         };
@@ -157,7 +158,7 @@ public class Service {
 
         service.scheduleAtFixedRate(drawField, 0, 3, TimeUnit.SECONDS);
 
-        service.scheduleAtFixedRate(starvation, 3, 3, TimeUnit.SECONDS);
+        service.scheduleAtFixedRate(starvation, 2, 2, TimeUnit.SECONDS);
 
         service.scheduleAtFixedRate(plantGrowth, 0, 2, TimeUnit.SECONDS);
 
@@ -190,10 +191,11 @@ public class Service {
                 herbivores.movement(gameField);
             } else {
                 if(!plantsList.isEmpty()) {
-                    herbivores.eat(plantsList.get(0));
-                    plantsList.remove(0);
-                    Logger.addCountEatPlants();
-                    Logger.downCountPlants();
+                    if(herbivores.eat(plantsList.get(0))) {
+                        plantsList.remove(0);
+                        Logger.addCountEatPlants();
+                        Logger.downCountPlants();
+                    }
                 } else {
                     herbivores.movement(gameField);
                 }

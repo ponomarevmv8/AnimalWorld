@@ -7,10 +7,6 @@ public class Goat extends Herbivores{
 
     private static final double NEED_FOOD = 3.0;
 
-    @Override
-    public void reproduce() {
-
-    }
 
     @Override
     public double getNeedFood() {

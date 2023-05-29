@@ -7,10 +7,6 @@ public class Buffalo extends Herbivores{
 
     private static final double NEED_FOOD = 100.0;
 
-    @Override
-    public void reproduce() {
-
-    }
 
     @Override
     public double getNeedFood() {
