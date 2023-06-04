@@ -1,5 +1,10 @@
 package animal.herbivores;
 
+import animal.ChanceToEat;
+
+import java.util.List;
+import java.util.Random;
+
 public class Boar extends Herbivores{
     private static final double WEIGHT = 400.0;
     private static final int MAX_NUMBER_PER_CELL = 50;
@@ -26,5 +31,34 @@ public class Boar extends Herbivores{
     @Override
     public int getMaxNumberPerCell() {
         return MAX_NUMBER_PER_CELL;
+    }
+
+    public boolean eat(Herbivores herbivores) {
+        if(herbivores == null) {
+            return false;
+        }
+        ChanceToEat chance = ChanceToEat.BOAR;
+        int numberChance = getChance(herbivores.getClass().getSimpleName(), chance.getChance());
+        if(isEat(numberChance)) {
+            this.setHealth(herbivores.getWeight());
+            return true;
+        }
+        return false;
+    }
+
+    private int getChance(String className, List<String> chance) {
+        int numberChance = 0;
+        for(String str : chance) {
+            int index= str.indexOf('=');
+            if(className.equals(str.substring(0, index))) {
+                numberChance = Integer.parseInt( str.substring(index+1));
+            }
+        }
+        return numberChance;
+    }
+
+    private boolean isEat(int numberChance){
+        int randomChance = new Random().nextInt(100) + 1;
+        return randomChance <= numberChance;
     }
 }

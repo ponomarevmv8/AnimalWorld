@@ -2,7 +2,8 @@ package service;
 
 import animal.Animal;
 import animal.Plants;
-import animal.herbivores.Herbivores;
+import animal.herbivores.*;
+import animal.predators.Boa;
 import animal.predators.Predators;
 import gui.Cell;
 import gui.GameField;
@@ -181,7 +182,7 @@ public class Service {
                         break;
                     }
                 }
-                if(!isEat && herbivoresList.isEmpty()){
+                if(!isEat){
                     predators.movement(gameField);
                 }
             }
@@ -197,7 +198,35 @@ public class Service {
                         Logger.downCountPlants();
                     }
                 } else {
-                    herbivores.movement(gameField);
+                    if(herbivores instanceof Boar) {
+                        boolean isEat = false;
+                        for(Herbivores herbivoresEatingGorBoar : herbivoresList) {
+                            if(((Boar) herbivores).eat(herbivoresEatingGorBoar)) {
+                                isEat = true;
+                                herbivoresEatingGorBoar.getCell().removeAnimal(herbivoresEatingGorBoar);
+                                Logger.addCountEatHerbivores();
+                                break;
+                            }
+                        }
+                        if(!isEat) {
+                            herbivores.movement(gameField);
+                            continue;
+                        }
+                    }
+                    Caterpillar caterpillar = herbivores.getCell().getCaterpillar();
+                    if(caterpillar != null) {
+                        if(herbivores instanceof Mouse) {
+                            if(((Mouse) herbivores).eat(caterpillar)) {
+                                herbivoresList.remove(caterpillar);
+                                Logger.addCountEatHerbivores();
+                            }
+                        } else if(herbivores instanceof Duck) {
+                            if(((Duck) herbivores).eat(caterpillar)) {
+                                herbivoresList.remove(caterpillar);
+                                Logger.addCountEatHerbivores();
+                            }
+                        } else herbivores.movement(gameField);
+                    } else herbivores.movement(gameField);
                 }
             }
         }

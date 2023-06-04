@@ -1,6 +1,6 @@
 package animal.herbivores;
 
-import animal.Plants;
+import java.util.Random;
 
 public class Mouse extends Herbivores{
     private static final double WEIGHT = 0.05;
@@ -28,5 +28,14 @@ public class Mouse extends Herbivores{
     @Override
     public int getMaxNumberPerCell() {
         return MAX_NUMBER_PER_CELL;
+    }
+
+    public boolean eat(Caterpillar caterpillar) {
+        int randomChance = new Random().nextInt(100) + 1;
+        if(randomChance <= 90) {
+            this.setHealth(caterpillar.getWeight());
+            return true;
+        }
+        return false;
     }
 }

@@ -42,7 +42,7 @@ public abstract class Predators extends Animal {
     private int getChance(String className, List<String> chance) {
         int numberChance = 0;
         for(String str : chance) {
-            int index= str.indexOf('=');
+            int index = str.indexOf('=');
             if(className.equals(str.substring(0, index))) {
                 numberChance = Integer.parseInt( str.substring(index+1));
             }
@@ -51,7 +51,7 @@ public abstract class Predators extends Animal {
     }
 
     private boolean isEat(int numberChance){
-        int randomChance = new Random().nextInt() + 1;
+        int randomChance = new Random().nextInt(100) + 1;
         return randomChance <= numberChance;
     }
 }

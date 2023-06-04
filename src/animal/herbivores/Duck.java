@@ -1,5 +1,7 @@
 package animal.herbivores;
 
+import java.util.Random;
+
 public class Duck extends Herbivores{
     private static final double WEIGHT = 1.0;
     private static final int MAX_NUMBER_PER_CELL = 200;
@@ -26,5 +28,14 @@ public class Duck extends Herbivores{
     @Override
     public int getMaxNumberPerCell() {
         return MAX_NUMBER_PER_CELL;
+    }
+
+    public boolean eat(Caterpillar caterpillar) {
+        int randomChance = new Random().nextInt(100) + 1;
+        if(randomChance <= 90) {
+            this.setHealth(caterpillar.getWeight());
+            return true;
+        }
+        return false;
     }
 }

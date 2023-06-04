@@ -2,6 +2,7 @@ package gui;
 
 import animal.Animal;
 import animal.Plants;
+import animal.herbivores.Caterpillar;
 import animal.herbivores.Herbivores;
 import animal.predators.Predators;
 import service.Logger;
@@ -40,6 +41,8 @@ public class Cell {
     private List<Predators> predatorsList = new ArrayList<>();
 
     private List<Plants> plantsList = new ArrayList<>();
+
+    private List<Caterpillar> caterpillarList = new ArrayList<>();
 
     public Cell(int x, int y) {
         this.x = x;
@@ -116,6 +119,9 @@ public class Cell {
          if (countAnimal.get(nameClass) < animal.getMaxNumberPerCell()) {
             if (animal instanceof Herbivores) {
                 herbivoresList.add((Herbivores) animal);
+                if(animal instanceof Caterpillar) {
+                    caterpillarList.add((Caterpillar) animal);
+                }
                 animal.setCell(this);
                 Logger.addCountHerbivores();
             } else {
@@ -170,6 +176,10 @@ public class Cell {
         }
         return animal;
 
+    }
+
+    public Caterpillar getCaterpillar() {
+        return caterpillarList.isEmpty() ? null : caterpillarList.get(0);
     }
 
 }
